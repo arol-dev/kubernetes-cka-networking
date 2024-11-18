@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: test-container
+  name: test-container
+  namespace: backend
+spec:
+  containers:
+  - image: busybox
+    name: test-container
+    resources: {}
+    command: ["sh", "-c", "sleep 7200"]
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

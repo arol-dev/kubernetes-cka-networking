@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: productpage
+  namespace: frontend
 spec:
   replicas: 2
   selector:
@@ -12,13 +13,22 @@ spec:
       labels:
         app: productpage
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - node02
       containers:
         - name: productpage
           image: istio/examples-bookinfo-productpage-v1
           resources:
             limits:
               memory: "128Mi"
-              cpu: "500m"
+              cpu: "100m"
           ports:
             - containerPort: 9080
           env:

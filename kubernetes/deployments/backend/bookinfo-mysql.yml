@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-credentials
+  namespace: backend
 type: Opaque
 data:
   rootpasswd: cGFzc3dvcmQ=
@@ -10,6 +11,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysqldb
+  namespace: backend
   labels:
     app: mysqldb
     service: mysqldb
@@ -24,6 +26,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysqldb-v1
+  namespace: backend
   labels:
     app: mysqldb
     version: v1
