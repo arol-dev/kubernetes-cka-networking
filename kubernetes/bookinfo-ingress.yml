@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookinfo-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx  # Especifica el nombre de tu Ingress Controller, por ejemplo, 'nginx'
+  rules:
+  - host: bookinfo.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080
