@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviews
+  namespace: backend
 spec:
   replicas: 2
   selector:
@@ -12,15 +13,26 @@ spec:
       labels:
         app: reviews
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - node02
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
       containers:
         - name: reviews
           image: istio/examples-bookinfo-reviews-v2
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
           ports:
             - containerPort: 9080
           env:
             - name: RATINGS_HOSTNAME
               value: ratings
+

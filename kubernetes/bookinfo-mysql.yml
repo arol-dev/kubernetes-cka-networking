@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-credentials
+  namespace: backend
 type: Opaque
 data:
   rootpasswd: cGFzc3dvcmQ=
@@ -39,6 +40,11 @@ spec:
         app: mysqldb
         version: v1
     spec:
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
       containers:
         - name: mysqldb
           image: docker.io/istio/examples-bookinfo-mysqldb:1.20.2
